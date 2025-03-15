@@ -62,7 +62,11 @@ app.post('/login',async function(req,res){
             if(passOk){
                 const token = jwt.sign({name:target_user.name,id:target_user._id,photo:target_user.profileimage},jwtsecret,{},(err,token)=>{
                     if(err) throw err;
-                    res.cookie('token',token);
+                    res.cookie('token',token,{
+                        httpOnly: true,
+                        secure: true,
+                        sameSite: 'None'
+                    });
                     res.json({ success: true ,name:target_user.name,photo:target_user.profileimage,role:target_user.role });
                 });
             }
